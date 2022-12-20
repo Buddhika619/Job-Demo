@@ -63,7 +63,8 @@ export default function NavBar() {
   const navigate = useNavigate()
 
   // Hook for accessing the current route
-  const {path} = useLocation()
+  const {pathname} = useLocation()
+
 
   //hook for track search input field value
   const [keyword, setKeyword] = useState('')
@@ -72,7 +73,7 @@ export default function NavBar() {
   useEffect(() => {
     navigate(`/home/search/${keyword}`)
     if (keyword === '') {
-      navigate(path)
+      navigate('/home')
     }
   }, [keyword])
 
