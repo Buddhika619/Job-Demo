@@ -5,6 +5,7 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 import connectDB from './config/db.js'
 import postRoutes from './routes/postRoutes.js'
 import userRoutes from './routes/userRoutes.js'
+import path from 'path'
 
 // Load environment variables from .env file
 dotenv.config()
@@ -30,12 +31,27 @@ class Server {
 
   // Function to define routes for the server
   routes() {
-    // Root route to test the server
-    this.app.get('/', (req, res) => {
-      res.send('api is running!')
-    })
     this.app.use('/api/posts', postRoutes)
     this.app.use('/api/users', userRoutes)
+  }
+
+  fileHandling() {
+    // we cant access __dirname when working with ES modules, it only available for common js modules, so path.resolve is used to mimic the __driname
+    const __dirname = path.resolve()
+
+    // after building react application giviing the access to react build version
+    if (process.env.NODE_ENV === 'production') {
+      this.app.use(express.static(path.join(__dirname, '/frontend/build')))
+      // Set up a route to serve the index.html file for all other routes
+      this.app.get('*', (req, res) =>
+        res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+      )
+    } else {
+      // Set up a route to send a message when the root URL is accessed
+      this.app.get('/', (req, res) => {
+        res.send('api is running!')
+      })
+    }
   }
 
   // Function to define error handlers for the server
