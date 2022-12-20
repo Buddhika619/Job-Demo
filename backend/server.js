@@ -16,6 +16,7 @@ class Server {
     this.app = express()
     this.config()
     this.routes()
+    this.environment()
     this.errorHandlers()
   }
 
@@ -35,7 +36,8 @@ class Server {
     this.app.use('/api/users', userRoutes)
   }
 
-  fileHandling() {
+  // Function to choose the environment
+  environment() {
     // we cant access __dirname when working with ES modules, it only available for common js modules, so path.resolve is used to mimic the __driname
     const __dirname = path.resolve()
 
