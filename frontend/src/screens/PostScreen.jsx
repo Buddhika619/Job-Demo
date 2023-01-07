@@ -61,11 +61,15 @@ const PostScreen = () => {
       <Typography variant='h3' gutterBottom>
         {content.title}
       </Typography>
+      <Box fontSize='1.2rem' marginBottom='10px'>
+         <img src={content.image}  width='100%'alt="" />
+        </Box>
 
       <Typography variant='h6' gutterBottom>
         {content.text}
       </Typography>
 
+     
       <Typography variant='body2' gutterBottom>
         @{content.userName} <br /> {date}
       </Typography>

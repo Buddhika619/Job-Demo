@@ -10,6 +10,8 @@ const userController = new UserController()
 
 // register a new user
 router.post('/', asyncHandler(userController.register))
+
+router.get('/', asyncHandler(userController.getAllUsers))
 // POST request to authenticate a user
 router.post('/login', asyncHandler(userController.auth))
 // GET request to get the logged in user's profile

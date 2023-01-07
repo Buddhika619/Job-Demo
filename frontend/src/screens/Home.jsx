@@ -6,6 +6,8 @@ import PostCard from '../components/PostCard'
 import { approvedPosts } from '../actions/postActions'
 import { useParams } from 'react-router-dom'
 
+
+
 const Home = () => {
   //creating instance of queryClient
   const queryClient = useQueryClient()
@@ -20,6 +22,7 @@ const Home = () => {
   if (keyword) {
     searchkey = keyword
   }
+
 
   // Query hook to get post based on search key
   const {
@@ -38,6 +41,7 @@ const Home = () => {
     content = publicPost
   }
 
+  console.log(content)
   //function for open the post model
   const modelOpen = () => {
     setOpen(true)
@@ -54,7 +58,7 @@ const Home = () => {
   return (
     <Box marginTop='5vh'>
       <Typography variant='h5' textAlign='center' gutterBottom>
-        Apple House Forum
+        Apple House JOB Portal
       </Typography>
 
       <Box display='none'>
@@ -77,6 +81,7 @@ const Home = () => {
             numcomments={post.numcomments}
             status={post.status}
             id={post._id}
+            image= {post?.image}
           />
         </Box>
       ))}

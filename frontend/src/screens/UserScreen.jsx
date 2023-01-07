@@ -13,6 +13,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { deletePostAdmin, getUserPosts } from '../actions/postActions'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import { getAllUsers } from '../actions/userActions'
 
 const UserProfileScreen = () => {
   // hook to track of the selected rows of the data grid
@@ -30,33 +31,14 @@ const UserProfileScreen = () => {
     isLoading,
     isError,
     error,
-    data: posts,
-  } = useQuery('userPost', getUserPosts)
+    data: users,
+  } = useQuery('userPost', getAllUsers)
 
-  // Hook to handle the approve post mutation
-  const deletePostMutation = useMutation(deletePostAdmin, {
-    onSuccess: () => {
-       // Invalidate the userPost query to refresh the data
-      queryClient.invalidateQueries('userPost')
-      toast.success('Post Removed!')
-    },
 
-    onError: (error) => {
-      toast.error(error.response.data)
-    },
-  })
+ 
 
-  //define function to navigate to a single post
-  const view = (id) => {
-    navigate(`/post/${id}`)
-  }
 
-    //define function for delete posts
-  const deletePost = (id) => {
-    if (window.confirm('Are you sure?')) {
-      deletePostMutation.mutate(id)
-    }
-  }
+
 
   let content
   if (isLoading) {
@@ -64,8 +46,10 @@ const UserProfileScreen = () => {
   } else if (isError) {
     return <p>{error.message}</p>
   } else {
-    content = posts
+    content = users
   }
+
+console.log(users)
 
    //data grid columns
   const columns = [
@@ -77,93 +61,51 @@ const UserProfileScreen = () => {
 
     {
       field: 'name',
-      headerName: 'Assigned By',
+      headerName: 'Name',
       flex: 1,
     },
 
     {
-      field: 'title',
-      headerName: 'Job Title',
+      field: 'email',
+      headerName: 'Email',
       flex: 1,
     },
         //render custom coloumn based on the cell value
     {
-      field: 'status',
-      headerName: 'Status',
+      field: 'role',
+      headerName: 'Role',
       width: 150,
       renderCell: (params) =>
-        params.value === 'pending' ? (
-          <Chip label='pending' color='info' size='small' variant='outlined' />
-        ) : params.value === 'approved' ? (
+        params.value === true ? (
+          <Chip label='Admin' color='error' size='small' variant='outlined' />
+        ) :  (
           <Chip
-            label='approved'
+            label='Worker'
             color='success'
             size='small'
             variant='outlined'
           />
-        ) : (
-          <Chip
-            label='rejected'
-            color='error'
-            size='small'
-            variant='outlined'
-          />
-        ), 
+    
+        ),
     },
 
-    {
-      field: 'createdAt',
-      headerName: 'Created At',
-      flex: 1,
-    },
   ]
 
     //generating datagrid rows with query data
   let rows = content?.map((content, index) => ({
     id: content._id,
-    name: content.userName,
-    status: content.status,
-    title: content.title,
-    createdAt: new Date(content.createdAt).toString().slice(0, 25),
+    name: content.name,
+    email: content.email,
+    role : content.isAdmin,
+  
   }))
 
   //using custom toolbar component of datagrid to add custom function to the data grid
-  const CustomToolbar = () => {
-    return (
-      <GridToolbarContainer>
-        <GridToolbarFilterButton />
-
-
-   {/* display the view button if only one cell has selected */}
-        {selectionModel.length === 1 && (
-          <Button
-            className='p-0 pe-2'
-            variant='text'
-            onClick={() => view(selectionModel[0])}
-          >
-            <RemoveRedEyeIcon fontSize='small' />
-            <span className='px-2'>View</span>
-          </Button>
-        )}
-
-   {/* display the Delete button if only one cell has selected */}
-        {/* {selectionModel.length === 1 && (
-          <Button
-            className='p-0 pe-2'
-            variant='text'
-            onClick={() => deletePost(selectionModel[0])}
-          >
-            <DeleteOutlineIcon fontSize='small' />
-            <span className='px-2'>Delete</span>
-          </Button>
-        )} */}
-      </GridToolbarContainer>
-    )
-  }
+  
 
   return (
     <Box m='20px'>
-      <Header title='PROFILE' subtitle={user.current.name} />
+      <Header title='USER LIST'  />
 {/* data grid styles */}
       <Box
         m='40px 0 0 0'
@@ -195,9 +137,7 @@ const UserProfileScreen = () => {
           onSelectionModelChange={(selection) => {
             setSelectionModel(selection)
           }}
-          components={{
-            Toolbar: CustomToolbar,
-          }}
+          
         />
       </Box>
     </Box>

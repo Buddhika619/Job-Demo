@@ -48,6 +48,8 @@ const AdminScreen = () => {
     data: posts,
   } = useQuery('allPost', getallPosts)
 
+
+  console.log(posts)
   // Hook to handle the approve post mutation
   const approvePostMutation = useMutation(updatePost, {
     onSuccess: () => {
@@ -142,12 +144,17 @@ const AdminScreen = () => {
 
     {
       field: 'name',
-      headerName: 'User Name',
+      headerName: 'Assinged By',
+      flex: 1,
+    },
+    {
+      field: 'worker',
+      headerName: 'Worker',
       flex: 1,
     },
     {
       field: 'title',
-      headerName: 'Post Title',
+      headerName: 'Job Title',
       flex: 1,
     },
     //render custom coloumn based on the cell value
@@ -187,6 +194,7 @@ const AdminScreen = () => {
     id: content._id,
     name: content.userName,
     status: content.status,
+    worker: content.worker?.name,
     title: content.title,
     createdAt: new Date(content.createdAt).toString().slice(0, 25),
   }))
@@ -250,7 +258,7 @@ const AdminScreen = () => {
 
   return (
     <Box m='20px'>
-      <Header title='Admin' subtitle='Post Managing Module' />
+      <Header title='Admin' subtitle='Job Managing Module' />
 {/* data grid styles */}
       <Box
         m='40px 0 0 0'

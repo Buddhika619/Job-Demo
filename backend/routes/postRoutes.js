@@ -2,6 +2,22 @@ import express from 'express'
 import PostController from '../controllers/postController.js'
 import asyncHandler from 'express-async-handler'
 import { protect, admin } from '../middleware/authMiddleware.js'
+import multer from 'multer';
+
+
+import { fileUploadMiddleware } from '../middleware/multer.js';
+
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//       cb(null, 'uploads/');
+//     },
+//     filename: (req, file, cb) => {
+//       cb(null, file.originalname);
+//     },
+//   });
+  
+//   const upload = multer({ storage });
+
 
 // Create a new Express router
 const router = express.Router()
@@ -19,7 +35,7 @@ router.get('/filter', protect,admin , asyncHandler(postController.getsortedposts
 router.get('/:id', protect, asyncHandler(postController.getpostById))
 
 // create a new post
-router.post('/', protect, asyncHandler(postController.createpost))
+router.post('/', protect,admin, fileUploadMiddleware().single('image'), asyncHandler(postController.createpost))
 // create a feedback comment on a post
 router.post('/:id/feedback', protect,admin, asyncHandler(postController.adminFeedback))
 // create a new comment on a post
@@ -30,5 +46,6 @@ router.delete('/:id', protect, asyncHandler(postController.deletepost))
 router.put('/:id', protect,admin, asyncHandler(postController.updatepost))
 
 export default router
+
 
 //async handler catch errors and past it to the customer error handler

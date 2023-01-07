@@ -40,6 +40,7 @@ class Server {
   environment() {
     // we cant access __dirname when working with ES modules, it only available for common js modules, so path.resolve is used to mimic the __driname
     const __dirname = path.resolve()
+    this.app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
     // after building react application giviing the access to react build version
     if (process.env.NODE_ENV === 'production') {

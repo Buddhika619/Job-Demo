@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import AdminScreen from './screens/AdminScreen'
 import UserProfileScreen from './screens/UserProfileScreen'
 import PostScreen from './screens/PostScreen'
+import UserScreen from './screens/UserScreen'
 
 function App() {
   return (
@@ -42,6 +43,10 @@ function App() {
             </Route>
             <Route path='/profile' element={<PrivateRoute />}>
               <Route path='/profile' element={<UserProfileScreen />} />
+            </Route>
+
+            <Route path='/users' element={<PrivateRoute />}>
+              <Route path='/users' element={<UserScreen />} />
             </Route>
           </Routes>
         </Container>

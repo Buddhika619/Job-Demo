@@ -1,4 +1,5 @@
 import Post from '../models/postModel.js'
+import cloudinary from '../middleware/cloudinary.js'
 
 class PostController {
   // @des  Fetch all approved posts
@@ -15,11 +16,11 @@ class PostController {
           { title: { $regex: req.query.keyword, $options: 'i' } },
           { text: { $regex: req.query.keyword, $options: 'i' } },
         ],
-        status: 'approved',
+  
       })
     } else {
       // If no keyword was provided, retrieve all approved posts sorted by creation date
-      posts = await Post.find({ status: 'approved' }).sort({ createdAt: -1 })
+      posts = await Post.find({ worker: req.user._id }).sort({ createdAt: -1 })
     }
 
     res.status(200).json(posts)
@@ -54,7 +55,7 @@ class PostController {
   // @route DELETE /api/posts/user
   // @access private
   async userPosts(req, res) {
-    const posts = await Post.find({ user: req.user._id })
+    const posts = await Post.find({ worker: req.user._id })
     res.status(200).json(posts)
   }
 
@@ -85,16 +86,23 @@ class PostController {
   // @route POST /api/posts/
   // @access Private
   async createpost(req, res) {
+      console.log(req.body)
+   
+    const result = await cloudinary.uploader.upload(req.file.path)
+ console.log(result)
+    // const result = await cloudinary.uploader.upload(req.file.path);
     // Create a new Post object with the data from the request body
     let post = new Post({
       title: req.body.title,
       text: req.body.text,
+      worker: req.body.worker,
+      image:result.secure_url,
       user: req.user._id,
       userName: req.user.name,
     })
     // If the user is an admin, set the status to "approved"
     if (req.user.isAdmin) {
-      post.status = 'approved'
+      post.status = 'pending'
     }
 
     // Save the Post object to the database
@@ -207,11 +215,11 @@ class PostController {
     switch (filter) {
       // If the filter is 'user', sort the posts by user name in descending order
       case 'user':
-        posts = await Post.find({}).sort({ userName: -1 })
+        posts = await Post.find({}).sort({ userName: -1 }).populate('worker')
         break
       default:
         // If no filter is specified updatedAt in descending order
-        posts = await Post.find({}).sort({ updatedAt: -1 })
+        posts = await Post.find({}).sort({ updatedAt: -1 }).populate('worker')
         break
     }
 

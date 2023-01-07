@@ -28,6 +28,21 @@ export const getUserProfile = async () => {
   return data
 }
 
+
+
+export const getAllUsers = async () => {
+  const user = JSON.parse(localStorage.getItem('userinfo'))
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${user.token}`,
+    },
+  }
+
+  const { data } = await axios.get(`/api/users`, config)
+  return data
+}
+
 //log out from the application
 export const logOut = async () => {
   localStorage.removeItem('userinfo')

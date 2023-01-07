@@ -12,10 +12,12 @@ import LogoutIcon from '@mui/icons-material/Logout'
 import SearchIcon from '@mui/icons-material/Search'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
 
 import { useQuery } from 'react-query'
 import { getUserProfile, logOut } from '../actions/userActions'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -58,13 +60,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }))
 
 export default function NavBar() {
-
   // Hook for navigating to different routes within the app
   const navigate = useNavigate()
 
   // Hook for accessing the current route
-  const {pathname} = useLocation()
-
+  const { pathname } = useLocation()
 
   //hook for track search input field value
   const [keyword, setKeyword] = useState('')
@@ -85,7 +85,7 @@ export default function NavBar() {
     data: userInfo,
   } = useQuery('userInfo', getUserProfile)
 
-   // Variable for storing the user information
+  // Variable for storing the user information
   let content
   if (isLoading) {
   } else if (isError) {
@@ -95,11 +95,10 @@ export default function NavBar() {
   }
 
   // Function for logging out
- const logout = () => {
+  const logout = () => {
     logOut()
     navigate('/')
- }
-
+  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -126,6 +125,14 @@ export default function NavBar() {
               <Link to='/admin'>
                 <IconButton size='large' color='inherit'>
                   <AdminPanelSettingsIcon />
+                </IconButton>
+              </Link>
+            )}
+
+            {content && content.isAdmin && (
+              <Link to='/users'>
+                <IconButton size='large' color='inherit'>
+                 <GroupAddIcon/>
                 </IconButton>
               </Link>
             )}

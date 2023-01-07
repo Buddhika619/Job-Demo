@@ -28,6 +28,11 @@ const postSchema = mongoose.Schema({
         required: true,
         ref: 'User'
     },
+    worker: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
+    },
     userName: {
         type: String,
         required: true,
@@ -41,6 +46,11 @@ const postSchema = mongoose.Schema({
         type: Number,
         required: true,
         default: 0
+    },
+    
+    image: {
+        type: String,
+  
     },
     text: {
         type: String,

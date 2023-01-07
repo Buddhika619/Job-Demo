@@ -33,12 +33,14 @@ export const getallPosts = async () => {
 
 //creating new post
 export const createPost = async (post) => {
+  console.log(post)
   const user = JSON.parse(localStorage.getItem('userinfo'))
   const config = {
     headers: {
       Authorization: `Bearer ${user.token}`,
     },
   }
+
 
   return await axios.post(`/api/posts`, post, config)
 }
