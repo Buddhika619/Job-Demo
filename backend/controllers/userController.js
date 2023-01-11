@@ -17,7 +17,7 @@ class UserController {
         _id: user._id,
         name: user.name,
         email: user.email,
-        isAdmin: user.isAdmin,
+        // isAdmin: user.isAdmin,
         token: generateToken(user._id),
       })
     } else {
@@ -30,7 +30,7 @@ class UserController {
   // @route POST /api/users/
   // @access Public
   async register(req, res) {
-    const { name, email, password } = req.body
+    const { name, email, password,industry } = req.body
 
     const userExists = await User.findOne({ email })
 
@@ -44,6 +44,7 @@ class UserController {
     const user = await User.create({
       name,
       email,
+      industry,
       password,
     })
 
@@ -53,7 +54,6 @@ class UserController {
         _id: user._id,
         name: user.name,
         email: user.email,
-        isAdmin: user.isAdmin,
         token: generateToken(user._id),
       })
     } else {
@@ -74,7 +74,7 @@ class UserController {
         _id: user._id,
         name: user.name,
         email: user.email,
-        isAdmin: user.isAdmin,
+        industry: user.industry,
       })
     } else {
       res.status(404)

@@ -8,7 +8,7 @@
 //       cb(null, file.originalname);
 //     },
 //   });
-  
+
 // export const upload = multer({ storage });
 
 // // Define the fileUploadMiddleware function
@@ -33,27 +33,31 @@
 //     });
 //   }
 
-
-import multer from 'multer';
-import path from 'path';
+import multer from 'multer'
+import path from 'path'
 
 export function fileUploadMiddleware() {
   return multer({
     storage: multer.diskStorage({
+      
+      destination: (req, file, cb) => {
+        cb(null, 'uploads/')
+      },
       filename: (req, file, cb) => {
         // Generate a unique file name
-        const newFilename = `${Date.now()}${path.extname(file.originalname)}`;
+        const newFilename = `${Date.now()}${path.extname(file.originalname)}`
         // Call the callback with the new file name
-        cb(null, newFilename);
+        cb(null, newFilename)
       },
     }),
+
     fileFilter: (req, file, cb) => {
-      let ext = path.extname(file.originalname);
+      let ext = path.extname(file.originalname)
       if (ext !== '.jpg' && ext !== '.jpeg' && ext !== '.png') {
-        cb(new Error('File type is not supported'), false);
-        return;
+        cb(new Error('File type is not supported'), false)
+        return
       }
-      cb(null, true);
+      cb(null, true)
     },
-  });
+  })
 }

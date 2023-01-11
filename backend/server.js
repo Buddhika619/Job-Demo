@@ -5,6 +5,9 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 import connectDB from './config/db.js'
 import postRoutes from './routes/postRoutes.js'
 import userRoutes from './routes/userRoutes.js'
+import clientRoutes from './routes/clientRoutes.js'
+import quoteRoutes from './routes/quoteRoute.js'
+import requestRoutes from './routes/requestRoutes.js'
 import path from 'path'
 
 // Load environment variables from .env file
@@ -34,6 +37,9 @@ class Server {
   routes() {
     this.app.use('/api/posts', postRoutes)
     this.app.use('/api/users', userRoutes)
+    this.app.use('/api/client', clientRoutes)
+    this.app.use('/api/quote', quoteRoutes)
+    this.app.use('/api/request', requestRoutes)
   }
 
   // Function to choose the environment
