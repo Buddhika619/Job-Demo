@@ -3,7 +3,6 @@ import Dashboard from '../Dashboard'
 import { createClient } from '../../../actions/actions'
 
 export default function NewClient() {
-  
   const [formData, setFormData] = useState({
     title: '',
     firstName: '',
@@ -53,10 +52,11 @@ export default function NewClient() {
         street1: street1,
         city: city,
         state: state,
-        country:country,
+        country: country,
         zip: zip,
       },
     })
+    alert('A client has been successfully added.')
   }
 
   return (
