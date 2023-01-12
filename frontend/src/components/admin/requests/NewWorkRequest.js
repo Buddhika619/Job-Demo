@@ -1,8 +1,82 @@
-import React from "react";
+import React, { useState } from "react";
 import Dashboard from "../Dashboard";
+import { createRequest } from "../../../actions/actions";
 
 export default function NewWorkRequest() {
+
+
+
+  const [inputData, setInputData] = useState({
+    client: '',
+    title: '',
+    info: '',
+    appointmentDay: '',
+    reserveDay: '',
+    otherInfo: '',
+
+  })
+
+  const {
+    client,
+    title,
+    info,
+    appointmentDay,
+    reserveDay,
+    otherInfo,
+  } = inputData
+
+  const [image, setImage] = useState('')
+
+  const handleMutation = (e) => {
+    e.preventDefault()
+   
+    setInputData((inputData) => ({
+      ...inputData,
+      [e.target.id]: e.target.value,
+    }))
+  }
+
+
+
+  const uploadFileHandler = async (e) => {
+    
+    setImage(e.target.files[0]);
+  }
+
+  const submit = (e) => {
+    e.preventDefault()
+
+
+    const checkboxes = e.target.elements;
+    const selectedValues = [];
+    for (let i = 0; i < checkboxes.length; i++) {
+      if (checkboxes[i].type === "checkbox" && checkboxes[i].checked) {
+        selectedValues.push(checkboxes[i].value);
+      }
+    }
+
+    const formData = new FormData()
+    formData.append('image', image)
+    formData.append('client', client)
+    formData.append('title', title)
+    formData.append('info', info)
+    formData.append('appointmentDay', appointmentDay)
+    formData.append('reserveDay', reserveDay)
+    formData.append('dayPhase', selectedValues)
+    formData.append('otherInfo', otherInfo)
+
+
+
+
+
+    createRequest(formData)
+  }
+
+
+
+
   return (
+    
     <>
       <Dashboard />
       <main id="main" className="main">
@@ -30,19 +104,19 @@ export default function NewWorkRequest() {
                 New Work <span>Request</span>
               </div>
               <div className="card-body text-left">
-                <form class="row g-3">
+                <form class="row g-3" onSubmit={submit}>
                   <div class="col-md-8">
                     <label for="inputName5" class="form-label">
-                      Client Name
+                      Client ID
                     </label>
-                    <input type="text" class="form-control" name='client_name' id="client_name" />
+                    <input type="text" class="form-control" name='client_name' id="client" value={client} onChange={handleMutation}/>
                   </div>
 
                   <div class="col-md-8">
                     <label for="inputName5" class="form-label">
                       Request Title
                     </label>
-                    <input type="text" class="form-control" name='title' id="title" />
+                    <input type="text" class="form-control" name='title' id="title" value={title} onChange={handleMutation}/>
                   </div>
 
                   <h5>Service Details</h5>
@@ -54,7 +128,8 @@ export default function NewWorkRequest() {
                     <textarea
                       class="form-control"
                       placeholder="Address"
-                      name='service_info' id="service_info"
+                      name='service_info' 
+                      id="info" value={info} onChange={handleMutation}
                     >
                       {" "}
                     </textarea>
@@ -70,6 +145,7 @@ export default function NewWorkRequest() {
                       type="date"
                       class="form-control"
                       name='appointmentDay' id="appointmentDay"
+                      value={appointmentDay} onChange={handleMutation}
                     />
                   </div>
                   <div class="col-md-4">
@@ -80,6 +156,7 @@ export default function NewWorkRequest() {
                       type="date"
                       class="form-control"
                       name='reserveDay' id="reserveDay"
+                      value={reserveDay} onChange={handleMutation}
                     />
                   </div>
                   <div class="col-12">
@@ -91,6 +168,7 @@ export default function NewWorkRequest() {
                         class="form-check-input"
                         type="checkbox"
                         id="gridCheck"
+                        value= "anytime"
                       />
                       <label class="form-check-label" for="gridCheck">
                         Any time
@@ -102,6 +180,7 @@ export default function NewWorkRequest() {
                         class="form-check-input"
                         type="checkbox"
                         id="gridCheck"
+                        value= "morning"
                       />
                       <label class="form-check-label" for="gridCheck">
                         Morning
@@ -113,6 +192,7 @@ export default function NewWorkRequest() {
                         class="form-check-input"
                         type="checkbox"
                         id="gridCheck"
+                        value= "afternoon"
                       />
                       <label class="form-check-label" for="gridCheck">
                         Afternoon
@@ -124,6 +204,7 @@ export default function NewWorkRequest() {
                         class="form-check-input"
                         type="checkbox"
                         id="gridCheck"
+                        value= "evening"
                       />
                       <label class="form-check-label" for="gridCheck">
                         Evening
@@ -143,14 +224,15 @@ export default function NewWorkRequest() {
                           <textarea
                             class="form-control"
                             placeholder="Address"
-                            id="floatingTextarea"
+                            id="otherInfo"
+                            onChange={handleMutation}
                           ></textarea>
 
                           <hr />
 
                           <div className="text-center my-3">
                             Select your files here
-                            <input class="" type="file" id="" />
+                            <input class="" type="file" id="" onChange={uploadFileHandler}/>
                           </div>
 
                           <hr />
@@ -189,12 +271,10 @@ export default function NewWorkRequest() {
                     </div>
                   </div>
                   <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-                    <button type="submit" class="btn btn-md ">
-                      Cancel
-                    </button>
+          
 
                     <button type="submit" class="btn btn-md">
-                      Select Client
+                     Create Request
                     </button>
 
                   </div>

@@ -25,11 +25,11 @@ const requestSchema = mongoose.Schema(
     },
 
     dayPhase: {
-      type: String,
+      type: [String],
       required: true,
     },
     otherInfo: {
-      type: Number,
+      type: String,
     },
 
     image: {

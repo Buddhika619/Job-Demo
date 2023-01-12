@@ -8,18 +8,19 @@ class QuoteController {
   // @access Private
 async createQuote(req, res) {
     const { client,title, serviceItems, total, discount,otherInfo } = req.body
-
+    console.log(serviceItems)
     // Create new
     const quote = await Quote.create({
       client,
       title,
-      serviceItems,
+      serviceItems: JSON.parse(serviceItems),
       total,
       discount,
       otherInfo,
       image: req.file ? req.file.path : req.body.image
     })
 
+   
      // If the quote was created successfully, send a response with the user's information and a JWT token
     if (quote) {
       res.status(201).json(quote)

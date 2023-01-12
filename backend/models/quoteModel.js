@@ -1,6 +1,5 @@
 import mongoose from 'mongoose'
 
-
 // Create a new Mongoose schema for client
 const quoteSchema = mongoose.Schema(
   {
@@ -18,10 +17,6 @@ const quoteSchema = mongoose.Schema(
           type: String,
           required: true,
         },
-        description: {
-          type: String,
-          required: true,
-        },
         qty: {
           type: Number,
           required: true,
@@ -30,27 +25,21 @@ const quoteSchema = mongoose.Schema(
           type: Number,
           required: true,
         },
-        image: {
-          type: String,
+        total: {
+          type: Number,
           required: true,
         },
+  
       },
     ],
-    total: {
-        type: Number,
-        required: true,
-      },
-      discount: {
-        type: Number,
-      },
-      otherInfo: {
-        type: String,
-      },
+    
+    otherInfo: {
+      type: String,
+    },
 
-      image: {
-        type: String,
-      },
-  
+    image: {
+      type: String,
+    },
   },
   {
     timestamps: true,
