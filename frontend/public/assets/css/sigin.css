@@ -1,0 +1,30 @@
+.divider:after,
+.divider:before {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #eee;
+}
+button {
+  font-size: medium;
+  color: #000;
+  font-weight: 400;
+}
+.signin-btn {
+  background-color: #93d63d;
+}
+.signin-btn:hover {
+  background-color: #70a827;
+}
+.gmail-link {
+  background-color: #eeeeee;
+}
+.gmail-link:hover {
+  background-color: #d8d8d8;
+}
+.fb-link {
+  background-color: #478cc1;
+}
+.fb-link:hover {
+  background-color: #34658a;
+}

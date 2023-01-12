@@ -1,0 +1,22 @@
+._new_client h4 {
+  margin-top: 0px;
+  font-size: 22px;
+  font-weight: 800;
+  color: #3f3f3f;
+}
+
+._new_client button {
+  font-size: 16px;
+  font-weight: 600;
+  background-color: rgb(55, 255, 132);
+  border-radius: 5px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+._new_client button:hover {
+  color: #f6f8ff;
+  background-color: rgb(28, 94, 53);
+}
+.right_client {
+  background-color: rgb(226, 255, 223);
+}

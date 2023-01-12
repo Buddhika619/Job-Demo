@@ -1,0 +1,52 @@
+/* new work request---------------------------------------------- */
+
+._request_form {
+  border-top: 8px solid #556acb;
+  background-color: #fff;
+  border-radius: 5px;
+}
+._request_form-header {
+  font-size: 22px;
+  font-weight: 900;
+  color: #515151;
+  height: 60px;
+  background-color: #f6f8ff;
+}
+._request_form-header span {
+  font-size: 24px;
+  font-weight: 1000;
+  color: #556acb;
+}
+.form-control,
+.form-check-input,
+.form-select {
+  border: 1px solid #006013;
+  background-color: #fff;
+  border-radius: 5px;
+}
+.form-label {
+  font-size: 15px;
+  color: rgb(48, 48, 48);
+  font-weight: 600;
+}
+.__incard {
+  border-top: 4px solid #556acb;
+  background-color: #fff;
+  border-radius: 5px;
+}
+.__incard-h {
+  font-size: 16px;
+  font-weight: 500;
+  color: #292929;
+  background-color: #f6f8ff;
+}
+._request_form button {
+  font-size: 16px;
+  font-weight: 600;
+  background-color: rgb(55, 255, 132);
+  border-radius: 5px;
+}
+._request_form button:hover {
+  color: #f6f8ff;
+  background-color: rgb(28, 94, 53);
+}
